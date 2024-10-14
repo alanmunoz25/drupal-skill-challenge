@@ -1,0 +1,7 @@
+event_config.settings:
+  path: '/admin/config/event_config/config'
+  defaults:
+    _form: '\Drupal\event_config\Form\ConfigForm'
+    _title: 'Event Configuration'
+  requirements:
+    _permission: 'administer site configuration'

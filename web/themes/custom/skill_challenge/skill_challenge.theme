@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming
+ */
+
+use \Drupal\Core\Asset\AttachedAssetsInterface;
+
+/**
+ * Implements hook_css_alter().
+ */
+function skill_challenge_css_alter(&$css, AttachedAssetsInterface $assets) {
+  $pathService = \Drupal::service('extension.list.theme');
+  $oliveroThemePath = $pathService->getPath('olivero');
+  $myThemePath = $pathService->getPath('skill_challenge');
+  // Replace all css files by our files.
+  foreach ($css as $cssFile => $value) {
+    if (strpos($cssFile, $oliveroThemePath) !== FALSE) {
+      $css[$cssFile]['data'] = str_replace($oliveroThemePath, $myThemePath, $css[$cssFile]['data']);
+    }
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function skill_challenge_preprocess_node(&$variables) {
+  if ($variables['node']->getType() == 'event' && $variables['view_mode'] == 'teaser') {
+    $start_date = $variables['node']->get('field_start_date')->value;
+    $end_date = $variables['node']->get('field_end_date')->value;
+
+    $duration = strtotime($end_date) - strtotime($start_date);
+
+    // Calculate duration manually
+    $hours = (int) floor($duration / 3600);
+    $minutes = (int) floor(($duration / 60) % 60);
+    $seconds = (int) $duration % 60;
+
+    $variables['duration'] = "{$hours}h {$minutes}m {$seconds}s";
+  }
+  \Drupal::logger('skill_challenge')->notice('Duration: ' . $variables['duration']);
+}

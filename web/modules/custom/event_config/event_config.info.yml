@@ -1,0 +1,5 @@
+name: 'Event Config'
+type: module
+description: 'Event Config module for Skill Test Challenge.'
+core_version_requirement: ^10
+package: Custom
