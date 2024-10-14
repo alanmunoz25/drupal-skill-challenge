@@ -12,6 +12,7 @@ Drupal 10 Skill challenge.
 - DDEV (I used this)
 - Docker (optional)
 - Docker Compose (optional)
+- Git
 
 ## Installation
 1. Clone the repository
